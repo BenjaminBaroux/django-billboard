@@ -1,0 +1,88 @@
+{% load staticfiles %}
+
+
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ben's Billboard</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://image.flaticon.com/icons/png/128/25/25379.png">
+    <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Pinyon+Script|Poiret+One" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+   <div class="billboard">
+       <!--title-->
+    <h1 class="title-text pulse animated infinite">Billboard</h1>
+
+    {% if posts %}
+     <div>
+         {% for post in posts %}
+       <fieldset class="post-box">
+
+         <legend class="date-text post-box">{{ post.pub_date|date:"d/m/Y" }}</legend>
+
+         <div class="post-title-text">{{ post.title }}</div><br>
+         <div class="post-text">{{ post.content |linebreaksbr}}</div><br>
+         <div class="signature-text">{{ post.name}}</div>
+
+       </fieldset>
+         {% endfor %}
+     </div>
+
+    {% else %}
+    <div class="no-posts-text">No Messages... <br>Click the '+' to add a new post</div>
+     {% endif %}
+
+
+    <!--the box for the new comment -->
+
+    <div>
+        <!--form is sending my data (fieldset)-->
+        <form action="{% url 'newpost' %}"  method="post">{% csrf_token %}
+         <fieldset class="post-new-cont">
+           <legend class="date-text post-new-cont">{{ post.pub_date }}</legend><br>
+
+            <input type="text" name="title" placeholder="Title"><br>
+         <br>
+         <textarea class="form-control" name="content" rows="8"></textarea>
+         <br> <br>
+         <input type="text" class="author-input" name="author" placeholder="Author">
+         <br>
+         <br>
+        </fieldset>
+
+     <div class="create-new-cont font-cont">
+
+         <div class = "btn btn-times">
+           <i class="fa fa-times" aria-hidden="true"></i>
+         </div>
+
+         <button class="btn btn-add-content" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+     </div>
+    </div>
+    <br>
+    </form>
+
+    <div>
+        <div class="create-new-cont">
+          <div class="cont font-cont">
+            <div class="btn btn-add"type="submit" value="+">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+    </div>
+   </div>
+<script src="http://code.jquery.com/jquery-3.1.1.min.js">
+</script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
